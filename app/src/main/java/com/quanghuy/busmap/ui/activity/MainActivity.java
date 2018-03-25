@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.quanghuy.busmap.R;
 
+
 public class MainActivity extends AppCompatActivity {
     private ListView listRoute;
     private ImageView imgBanner;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.add_route) {
-            Intent intent = new Intent(getApplicationContext(), AddBusActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             return true;
         }

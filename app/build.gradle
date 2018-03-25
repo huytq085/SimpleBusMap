@@ -16,6 +16,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+
 }
 
 dependencies {
@@ -25,13 +36,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'org.apache.httpcomponents:httpclient:4.5.3'
     compile 'commons-io:commons-io:2.4'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.3'
     compile 'com.fasterxml.jackson.core:jackson-core:2.9.2'
     compile 'com.google.code.gson:gson:2.3.1'
-
-
-
-
+    compile 'org.apache.httpcomponents:httpclient:4.5.3'
+    annotationProcessor 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.jakewharton:butterknife:6.1.0'
+    implementation 'com.android.support:design:26.1.0'
 }
+
+
+
