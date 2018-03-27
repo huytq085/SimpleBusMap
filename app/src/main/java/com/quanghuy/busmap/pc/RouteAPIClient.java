@@ -48,8 +48,7 @@ public class RouteAPIClient extends RestAPIClient{
 		String url = String.format(DOMAIN_PATTERN, GET_ROUTES_URL);
 		try {
 			String res = get(url);
-			Log.d("TEST", "getRoutes: " + res);
-			if (res != null || !res.equals("null")){
+			if (!res.equals("null")){
 				Route[] arrRoute = JsonUtils.decode(res, Route[].class);
 				if (arrRoute.length > 0) {
 					routes = Arrays.asList(arrRoute);
@@ -61,71 +60,86 @@ public class RouteAPIClient extends RestAPIClient{
 		return routes;
 	}
 
-//	public Route getRoute(int code){
-//		Route route = null;
-//		String url = String.format(DOMAIN_PATTERN, GET_ROUTE_URL);
-//		StringWriter writer = runRequest(new HttpGet(url), null);
-//		if (writer != null) {
-//			route = JsonUtils.decode(writer.toString(), Route.class);
-//		}
-//		return route;
-//	}
-//
-//	public boolean addRoute(Route route) {
-//		String url = String.format(DOMAIN_PATTERN, ADD_ROUTE_URL);
-//		String data = JsonUtils.encode(route);
-//		System.out.println(data);
-//		StringWriter writer = runRequest(new HttpPost(url), data);
-//		if (writer != null) {
-//			return Boolean.valueOf(writer.toString());
-//		}
-//		return false;
-//	}
-//
-//	public boolean updateRoute(Route route) {
-//		String url = String.format(DOMAIN_PATTERN, UPDATE_ROUTE_URL);
-//		String data = JsonUtils.encode(route);
-//		System.out.println(data);
-//		StringWriter writer = runRequest(new HttpPost(url), data);
-//		if (writer != null) {
-//			return Boolean.valueOf(writer.toString());
-//		}
-//		return false;
-//	}
-//
-//	public boolean deleteRoute(int code) {
-//		String url = String.format(DOMAIN_PATTERN, DELETE_ROUTE_URL);
-//		StringWriter writer = runRequest(new HttpDelete(url), null);
-//		if (writer != null){
-//			return Boolean.valueOf(writer.toString());
-//		}
-//		return false;
-//	}
-//
-//
-//	public List<String> parseJsonList(String nodeName, String jsonStr) {
-//		List<String> data = new ArrayList<String>();
-//		ObjectMapper m = new ObjectMapper();
-//		try {
-//			JsonNode rootNode = m.readTree(jsonStr);
-//			Iterator<JsonNode> items = rootNode.path(nodeName).elements();
-//			while(items.hasNext()) {
-//				JsonNode entry = items.next();
-//				if(!entry.isTextual()) {
-//					data.add(entry.toString());
-//				} else {
-//					data.add(entry.asText());
-//				}
-//			}
-//		} catch (JsonProcessingException e) {
-//			// TODO Auto-generated catch block
-////			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-////			e.printStackTrace();
-//		}
-//		return data;
-//	}
+	public Route getRoute(int code){
+		Route route = null;
+		String url = String.format(DOMAIN_PATTERN, GET_ROUTE_URL);
+		try {
+			String res = get(url);
+			if (!res.equals("null")) {
+				route = JsonUtils.decode(res, Route.class);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return route;
+	}
+
+	public boolean addRoute(Route route) {
+		String url = String.format(DOMAIN_PATTERN, ADD_ROUTE_URL);
+		String data = JsonUtils.encode(route);
+		try {
+			String res = post(url, data);
+			if (res.equals("true") || res.equals("false")){
+				return Boolean.valueOf(res);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean updateRoute(Route route) {
+		String url = String.format(DOMAIN_PATTERN, UPDATE_ROUTE_URL);
+		String data = JsonUtils.encode(route);
+		System.out.println(data);
+		try {
+			String res = put(url, data);
+			if (res.equals("true") || res.equals("false")){
+				return Boolean.valueOf(res);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean deleteRoute(int code) {
+		String url = String.format(DOMAIN_PATTERN, DELETE_ROUTE_URL);
+		try {
+			String res = delete(url);
+			if (res.equals("true") || res.equals("false")){
+				return Boolean.valueOf(res);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+
+	public List<String> parseJsonList(String nodeName, String jsonStr) {
+		List<String> data = new ArrayList<String>();
+		ObjectMapper m = new ObjectMapper();
+		try {
+			JsonNode rootNode = m.readTree(jsonStr);
+			Iterator<JsonNode> items = rootNode.path(nodeName).elements();
+			while(items.hasNext()) {
+				JsonNode entry = items.next();
+				if(!entry.isTextual()) {
+					data.add(entry.toString());
+				} else {
+					data.add(entry.asText());
+				}
+			}
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+		}
+		return data;
+	}
 
 
 	public static void main(String[] args) {
