@@ -3,6 +3,7 @@ package com.quanghuy.busmap.ui.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,12 @@ import android.widget.TextView;
 
 import com.quanghuy.busmap.R;
 import com.quanghuy.busmap.entity.Route;
+import com.quanghuy.busmap.utils.JsonUtils;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -44,7 +47,21 @@ public class ListRouteAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public Object getItem(int i) {
-        return i;
+        return routes.get(i);
+    }
+
+    public void removeItem(int code){
+        Log.d("LIST", "code: " + code);
+        Iterator<Route> it = routes.iterator();
+        while (it.hasNext()) {
+            Route route = it.next();
+            Log.d("TEST", "removeItem: " + route.getCode());
+            if (route.getCode() == code) {
+                Log.d("TEST", "removeItem: Ok to remove");
+//              FIXME: java.lang.UnsupportedOperationException
+                it.remove();
+            }
+        }
     }
 
     @Override
@@ -89,6 +106,26 @@ public class ListRouteAdapter extends BaseAdapter implements Filterable {
         TextView txtName;
         TextView txtVersion;
         TextView txtRouteCode;
+
+    }
+
+    public static void main(String[] args) {
+        List<Route> lists = new ArrayList<>();
+        Route a = new Route();
+        a.setCode(1);
+        Route b = new Route();
+        b.setCode(2);
+        lists.add(a);
+        lists.add(b);
+        Iterator<Route> it = lists.iterator();
+        System.out.println(JsonUtils.encode(lists));
+        while (it.hasNext()) {
+            Route route = it.next();
+            if (route.getCode() == 1) {
+                it.remove();
+            }
+        }
+        System.out.println(JsonUtils.encode(lists));
 
     }
 

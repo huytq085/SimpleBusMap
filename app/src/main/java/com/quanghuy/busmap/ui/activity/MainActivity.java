@@ -1,9 +1,10 @@
 package com.quanghuy.busmap.ui.activity;
 
 import android.app.SearchManager;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -11,17 +12,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private final String TAG = "MainActivity";
 
     int[] images = {R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo};
 
@@ -45,7 +47,14 @@ public class MainActivity extends AppCompatActivity
 
     ListView lvRoutes;
 
+    List<Route> routes;
+
     ListRouteAdapter listRouteAdapter;
+
+    public void setControl() {
+        lvRoutes = (ListView) findViewById(R.id.listRoute);
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
@@ -62,6 +71,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setControl();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -84,7 +96,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        new ListOfRoutes().execute();
+        new GetRoutesTask().execute();
+        registerForContextMenu(lvRoutes);
 
     }
 
@@ -126,6 +139,37 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        Log.d(TAG, "onCreateContextMenu: " );
+        if (v.getId()==R.id.listRoute) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            System.out.println(listRouteAdapter.getItem(info.position).getClass());
+            Route route = (Route)listRouteAdapter.getItem(info.position);
+            menu.setHeaderTitle("Mã tuyến: " + String.valueOf(route.getCode()));
+            String[] menuItems = getResources().getStringArray(R.array.action_menu);
+            for (int i = 0; i<menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+            }
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        Route route = (Route)listRouteAdapter.getItem(info.position);
+        int menuItemIndex = item.getItemId();
+        if (menuItemIndex == 0){
+            Log.d(TAG, "onContextItemSelected: EDIT");
+        } else {
+            Log.d(TAG, "onContextItemSelected: DELETE");
+            new DeleteRoutesTask().execute(route.getCode());
+        }
+        return true;
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -161,12 +205,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    class ListOfRoutes extends AsyncTask<Void, Void, List<Route>> {
-
-
+    class GetRoutesTask extends AsyncTask<Void, Void, List<Route>> {
         @Override
         protected List<Route> doInBackground(Void... voids) {
-            lvRoutes = (ListView) findViewById(R.id.listRoute);
+
             List<Route> routes = new ArrayList<>();
             RouteAPIClient client = new RouteAPIClient();
             routes = client.getRoutes();
@@ -191,5 +233,39 @@ public class MainActivity extends AppCompatActivity
             });
         }
     }
+    class DeleteRoutesTask extends AsyncTask<Integer, Void, Boolean> {
 
+        @Override
+        protected Boolean doInBackground(Integer... integers) {
+            int code = integers[0];
+            RouteAPIClient client = new RouteAPIClient();
+            if (client.deleteRoute(code)){
+                listRouteAdapter.removeItem(code);
+                listRouteAdapter.notifyDataSetChanged();
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("Alert");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            if (aBoolean) {
+                alertDialog.setMessage("The route has been delete");
+
+            } else {
+                alertDialog.setMessage("Error");
+            }
+            alertDialog.show();
+
+        }
+    }
 }
