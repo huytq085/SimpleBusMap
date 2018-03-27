@@ -15,12 +15,12 @@ import com.quanghuy.busmap.utils.JsonUtils;
 import com.quanghuy.busmap.utils.RestAPIClient;
 
 public class RouteAPIClient extends RestAPIClient{
-	private static final String DOMAIN_PATTERN = "http://44eead29.ngrok.io/%s";
+	private static final String DOMAIN_PATTERN = "http://9da770d7.ngrok.io/%s";
 	private static final String GET_ROUTES_URL = "/api/route/getroutes";
-	private static final String GET_ROUTE_URL = "/api/route/getroute?code=1";
+	private static final String GET_ROUTE_URL = "/api/route/getroute?code=";
 	private static final String ADD_ROUTE_URL = "/api/route/addroute";
 	private static final String UPDATE_ROUTE_URL = "/api/route/updateroute/";
-	private static final String DELETE_ROUTE_URL = "/api/route/deleteroute/%s";
+	private static final String DELETE_ROUTE_URL = "/api/route/deleteroute/";
 	public RouteAPIClient() {
 		super();
 	}
@@ -45,7 +45,7 @@ public class RouteAPIClient extends RestAPIClient{
 
 	public Route getRoute(int code){
 		Route route = null;
-		String url = String.format(DOMAIN_PATTERN, GET_ROUTE_URL);
+		String url = String.format(DOMAIN_PATTERN, GET_ROUTE_URL) + code;
 		try {
 			String res = get(url);
 			if (!res.equals("null")) {
@@ -87,7 +87,7 @@ public class RouteAPIClient extends RestAPIClient{
 	}
 
 	public boolean deleteRoute(int code) {
-		String url = String.format(DOMAIN_PATTERN, DELETE_ROUTE_URL);
+		String url = String.format(DOMAIN_PATTERN, DELETE_ROUTE_URL) + code;
 		try {
 			String res = delete(url);
 			if (res.equals("true") || res.equals("false")){
