@@ -21,6 +21,9 @@ public class Route {
     private String tripTime;
     private String tripSpacing;
 
+    public Route() {
+    }
+
     public Route(int code, String name, String routeAB, String routeBA, String agencies, String type, String distance, String vehicleType, String time, float basicPrice, float studentPrice, float monthlyPrice, String totalTrip, String tripTime, String tripSpacing) {
         this.code = code;
         this.name = name;

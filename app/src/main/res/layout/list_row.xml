@@ -4,11 +4,24 @@
     android:layout_height="match_parent"
     android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/appIconIV"
-        android:src="@drawable/logo"
+
+    <FrameLayout
         android:layout_width="60dp"
-        android:layout_height="60dp" />
+        android:layout_height="60dp"
+        android:id="@+id/layoutWithCircleDrawable"
+        android:background="@drawable/circle_drawable">
+
+        <TextView
+            android:id="@+id/txtRouteCode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/layoutWithCircleDrawable"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="01"
+            android:textColor="@color/accent"
+            android:textSize="30sp" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/aNametxt"
@@ -19,8 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/appIconIV"
-        android:layout_toEndOf="@+id/appIconIV"
+        android:layout_toRightOf="@+id/layoutWithCircleDrawable"
+        android:layout_toEndOf="@+id/layoutWithCircleDrawable"
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp" />
 

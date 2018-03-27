@@ -1,5 +1,6 @@
 package com.quanghuy.busmap.ui.activity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -9,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +20,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.quanghuy.busmap.R;
+import com.quanghuy.busmap.entity.Route;
+import com.quanghuy.busmap.pc.RouteAPIClient;
 import com.quanghuy.busmap.ui.adapters.ListRouteAdapter;
+import com.quanghuy.busmap.utils.JsonUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,9 +37,9 @@ public class MainActivity extends AppCompatActivity
 
     String[] versionNumber = {"1.0", "1.1", "1.5", "1.6", "2.0", "2.2", "2.3", "3.0", "4.0", "4.1", "4.4", "5.0", "6.0", "7.0"};
 
-    ListView lView;
+    ListView lvRoutes;
 
-    ListAdapter lAdapter;
+    ListAdapter listRouteAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,21 +65,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        new ListOfRoutes().execute();
 
-        lView = (ListView) findViewById(R.id.listRoute);
-
-        lAdapter = new ListRouteAdapter(MainActivity.this, version, versionNumber, images);
-
-        lView.setAdapter(lAdapter);
-
-        lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Toast.makeText(MainActivity.this, version[i]+" "+versionNumber[i], Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 
     @Override
@@ -126,4 +121,36 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    class ListOfRoutes extends AsyncTask<Void, Void, List<Route>> {
+
+
+        @Override
+        protected List<Route> doInBackground(Void... voids) {
+            lvRoutes = (ListView) findViewById(R.id.listRoute);
+            List<Route> routes = new ArrayList<>();
+            RouteAPIClient client = new RouteAPIClient();
+            routes = client.getRoutes();
+            Log.d("TEST", "doInBackground: " + JsonUtils.encode(routes));
+            if (routes != null) {
+                return routes;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Route> routes) {
+            super.onPostExecute(routes);
+            System.out.println(JsonUtils.encode(routes));
+            listRouteAdapter = new ListRouteAdapter(MainActivity.this, routes);
+            lvRoutes.setAdapter(listRouteAdapter);
+            lvRoutes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Toast.makeText(MainActivity.this, version[i]+" "+versionNumber[i], Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
 }
