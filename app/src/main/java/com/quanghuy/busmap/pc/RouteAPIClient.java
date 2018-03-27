@@ -1,23 +1,10 @@
 package com.quanghuy.busmap.pc;
 
-import android.util.Log;
-
 import java.io.IOException;
-import java.io.StringWriter;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPatch;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,17 +14,13 @@ import com.quanghuy.busmap.entity.Route;
 import com.quanghuy.busmap.utils.JsonUtils;
 import com.quanghuy.busmap.utils.RestAPIClient;
 
-import okhttp3.Request;
-
 public class RouteAPIClient extends RestAPIClient{
-	private static final String USER_AGENT = "Mozilla/5.0";
 	private static final String DOMAIN_PATTERN = "http://44eead29.ngrok.io/%s";
 	private static final String GET_ROUTES_URL = "/api/route/getroutes";
 	private static final String GET_ROUTE_URL = "/api/route/getroute?code=1";
 	private static final String ADD_ROUTE_URL = "/api/route/addroute";
 	private static final String UPDATE_ROUTE_URL = "/api/route/updateroute/";
 	private static final String DELETE_ROUTE_URL = "/api/route/deleteroute/%s";
-	private static final long pausedInMiliseconds = 501;
 	public RouteAPIClient() {
 		super();
 	}
