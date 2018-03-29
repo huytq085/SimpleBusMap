@@ -251,7 +251,12 @@ public class MainActivity extends AppCompatActivity
             RouteAPIClient client = new RouteAPIClient();
             if (client.deleteRoute(code)){
                 routes.remove(pos);
-                listRouteAdapter.notifyDataSetChanged();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listRouteAdapter.notifyDataSetChanged();
+                    }
+                });
                 return true;
             }
             return false;
