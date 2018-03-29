@@ -42,7 +42,7 @@ public class ListRouteAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public int getCount() {
-        return routes.size();
+        return (routes != null) ? routes.size() : 0;
     }
 
     @Override
@@ -58,7 +58,6 @@ public class ListRouteAdapter extends BaseAdapter implements Filterable {
             Log.d("TEST", "removeItem: " + route.getCode());
             if (route.getCode() == code) {
                 Log.d("TEST", "removeItem: Ok to remove");
-//              FIXME: java.lang.UnsupportedOperationException
                 it.remove();
             }
         }

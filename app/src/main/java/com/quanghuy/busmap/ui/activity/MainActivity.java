@@ -23,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -47,12 +48,14 @@ public class MainActivity extends AppCompatActivity
 
     ListView lvRoutes;
 
-    List<Route> routes;
+    List<Route> routes = new ArrayList<>();;
 
     ListRouteAdapter listRouteAdapter;
+    ImageView imgBanner;
 
     public void setControl() {
         lvRoutes = (ListView) findViewById(R.id.listRoute);
+        imgBanner = findViewById(R.id.imgBanner);
     }
 
     @Override
@@ -98,7 +101,13 @@ public class MainActivity extends AppCompatActivity
 
         new GetRoutesTask().execute();
         registerForContextMenu(lvRoutes);
+        imgBanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: remove");
 
+            }
+        });
     }
 
     @Override
@@ -163,7 +172,7 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, "onContextItemSelected: EDIT");
         } else {
             Log.d(TAG, "onContextItemSelected: DELETE");
-            new DeleteRoutesTask().execute(route.getCode());
+            new DeleteRoutesTask().execute(route.getCode(), info.position);
         }
         return true;
     }
@@ -208,8 +217,7 @@ public class MainActivity extends AppCompatActivity
     class GetRoutesTask extends AsyncTask<Void, Void, List<Route>> {
         @Override
         protected List<Route> doInBackground(Void... voids) {
-
-            List<Route> routes = new ArrayList<>();
+            routes = new ArrayList<>();
             RouteAPIClient client = new RouteAPIClient();
             routes = client.getRoutes();
             Log.d("TEST", "doInBackground: " + JsonUtils.encode(routes));
@@ -238,9 +246,11 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected Boolean doInBackground(Integer... integers) {
             int code = integers[0];
+            int pos = integers[1];
+            Log.d(TAG, "code: " + code + " \npos: " + pos);
             RouteAPIClient client = new RouteAPIClient();
             if (client.deleteRoute(code)){
-                listRouteAdapter.removeItem(code);
+                routes.remove(pos);
                 listRouteAdapter.notifyDataSetChanged();
                 return true;
             }

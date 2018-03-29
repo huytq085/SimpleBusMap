@@ -15,7 +15,7 @@ import com.quanghuy.busmap.utils.JsonUtils;
 import com.quanghuy.busmap.utils.RestAPIClient;
 
 public class RouteAPIClient extends RestAPIClient{
-	private static final String DOMAIN_PATTERN = "http://9da770d7.ngrok.io/%s";
+	private static final String DOMAIN_PATTERN = "http://busmap.somee.com/%s";
 	private static final String GET_ROUTES_URL = "/api/route/getroutes";
 	private static final String GET_ROUTE_URL = "/api/route/getroute?code=";
 	private static final String ADD_ROUTE_URL = "/api/route/addroute";
@@ -26,21 +26,22 @@ public class RouteAPIClient extends RestAPIClient{
 	}
 	
 
-	public List<Route> getRoutes(){
+	public ArrayList<Route> getRoutes(){
 		List<Route> routes = null;
 		String url = String.format(DOMAIN_PATTERN, GET_ROUTES_URL);
 		try {
 			String res = get(url);
 			if (!res.equals("null")){
 				Route[] arrRoute = JsonUtils.decode(res, Route[].class);
-				if (arrRoute.length > 0) {
+				if (arrRoute != null && arrRoute.length > 0) {
 					routes = Arrays.asList(arrRoute);
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return routes;
+		ArrayList<Route> ret = new ArrayList<>(routes);
+		return ret;
 	}
 
 	public Route getRoute(int code){
