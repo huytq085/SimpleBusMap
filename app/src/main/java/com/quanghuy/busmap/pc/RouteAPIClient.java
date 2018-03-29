@@ -1,5 +1,7 @@
 package com.quanghuy.busmap.pc;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,6 +65,8 @@ public class RouteAPIClient extends RestAPIClient{
 		String data = JsonUtils.encode(route);
 		try {
 			String res = post(url, data);
+			Log.d("TEST", "data: " + data);
+			Log.d("TEST", "addRoute: " + res);
 			if (res.equals("true") || res.equals("false")){
 				return Boolean.valueOf(res);
 			}

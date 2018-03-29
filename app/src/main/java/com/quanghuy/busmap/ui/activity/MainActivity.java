@@ -23,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -40,21 +41,21 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = "MainActivity";
 
-    int[] images = {R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo};
+    private int[] images = {R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo};
 
-    String[] version = {"Android Alpha", "Android Beta", "Android Cupcake", "Android Donut", "Android Eclair", "Android Froyo", "Android Gingerbread", "Android Honeycomb", "Android Ice Cream Sandwich", "Android JellyBean", "Android Kitkat", "Android Lollipop", "Android Marshmallow", "Android Nougat"};
+    private String[] version = {"Android Alpha", "Android Beta", "Android Cupcake", "Android Donut", "Android Eclair", "Android Froyo", "Android Gingerbread", "Android Honeycomb", "Android Ice Cream Sandwich", "Android JellyBean", "Android Kitkat", "Android Lollipop", "Android Marshmallow", "Android Nougat"};
 
-    String[] versionNumber = {"1.0", "1.1", "1.5", "1.6", "2.0", "2.2", "2.3", "3.0", "4.0", "4.1", "4.4", "5.0", "6.0", "7.0"};
+    private String[] versionNumber = {"1.0", "1.1", "1.5", "1.6", "2.0", "2.2", "2.3", "3.0", "4.0", "4.1", "4.4", "5.0", "6.0", "7.0"};
 
-    ListView lvRoutes;
+    private ListView lvRoutes;
 
-    List<Route> routes = new ArrayList<>();;
+    private List<Route> routes = new ArrayList<>();;
 
-    ListRouteAdapter listRouteAdapter;
-    ImageView imgBanner;
+    private ListRouteAdapter listRouteAdapter;
+    private ImageView imgBanner;
 
     public void setControl() {
-        lvRoutes = (ListView) findViewById(R.id.listRoute);
+        lvRoutes = findViewById(R.id.listRoute);
         imgBanner = findViewById(R.id.imgBanner);
     }
 
@@ -80,14 +81,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        FloatingActionButton fabAddRoute = (FloatingActionButton) findViewById(R.id.fabAddRoute);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -108,6 +103,15 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+//        Add route
+        fabAddRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent addRouteIntent = new Intent(MainActivity.this, NewRouteActivity.class);
+                startActivity(addRouteIntent);
+            }
+        });
+
     }
 
     @Override
@@ -274,13 +278,12 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
             if (aBoolean) {
-                alertDialog.setMessage("The route has been delete");
+                alertDialog.setMessage("The route has been deleted");
 
             } else {
                 alertDialog.setMessage("Error");
             }
             alertDialog.show();
-
         }
     }
 }

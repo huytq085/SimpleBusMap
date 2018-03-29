@@ -17,14 +17,14 @@ public class Route {
     private float basicPrice;
     private float studentPrice;
     private float monthlyPrice;
-    private String totalTrip;
+    private String totalTrips;
     private String tripTime;
     private String tripSpacing;
 
     public Route() {
     }
 
-    public Route(int code, String name, String routeAB, String routeBA, String agencies, String type, String distance, String vehicleType, String time, float basicPrice, float studentPrice, float monthlyPrice, String totalTrip, String tripTime, String tripSpacing) {
+    public Route(int code, String name, String routeAB, String routeBA, String agencies, String type, String distance, String vehicleType, String time, float basicPrice, float studentPrice, float monthlyPrice, String totalTrips, String tripTime, String tripSpacing) {
         this.code = code;
         this.name = name;
         this.routeAB = routeAB;
@@ -37,7 +37,7 @@ public class Route {
         this.basicPrice = basicPrice;
         this.studentPrice = studentPrice;
         this.monthlyPrice = monthlyPrice;
-        this.totalTrip = totalTrip;
+        this.totalTrips = totalTrips;
         this.tripTime = tripTime;
         this.tripSpacing = tripSpacing;
     }
@@ -137,12 +137,12 @@ public class Route {
         this.monthlyPrice = monthlyPrice;
     }
 
-    public String getTotalTrip() {
-        return totalTrip;
+    public String getTotalTrips() {
+        return totalTrips;
     }
 
-    public void setTotalTrip(String totalTrip) {
-        this.totalTrip = totalTrip;
+    public void setTotalTrips(String totalTrips) {
+        this.totalTrips = totalTrips;
     }
 
     public String getTripTime() {
