@@ -53,7 +53,7 @@
             android:layout_marginBottom="8dp">
             <EditText android:id="@+id/input_routeAB"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height ="wrap_content"
                 android:hint="Lượt đi" />
         </android.support.design.widget.TextInputLayout>
         <!-- RouteBA Label -->
@@ -64,8 +64,7 @@
             android:layout_marginBottom="8dp">
             <EditText android:id="@+id/input_routeBA"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
+                android:layout_height ="wrap_content"
                 android:hint="Lượt về" />
         </android.support.design.widget.TextInputLayout>
         <!-- Agencies Label -->

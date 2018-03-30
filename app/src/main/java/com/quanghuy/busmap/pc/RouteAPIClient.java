@@ -82,6 +82,8 @@ public class RouteAPIClient extends RestAPIClient{
 		System.out.println(data);
 		try {
 			String res = put(url, data);
+			Log.d("Test", "updateRoute: " + data);
+			Log.d("Test", "updateRoute: " + res);
 			if (res.equals("true") || res.equals("false")){
 				return Boolean.valueOf(res);
 			}

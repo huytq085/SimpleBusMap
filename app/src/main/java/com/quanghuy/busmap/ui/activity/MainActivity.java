@@ -4,11 +4,9 @@ import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -174,9 +171,13 @@ public class MainActivity extends AppCompatActivity
         int menuItemIndex = item.getItemId();
         if (menuItemIndex == 0){
             Log.d(TAG, "onContextItemSelected: EDIT");
+            Intent editIntent = new Intent(this, NewRouteActivity.class);
+            editIntent.putExtra("route", route);
+            startActivity(editIntent);
+
         } else {
             Log.d(TAG, "onContextItemSelected: DELETE");
-            new DeleteRoutesTask().execute(route.getCode(), info.position);
+            new DeleteRouteTask().execute(route.getCode(), info.position);
         }
         return true;
     }
@@ -245,7 +246,9 @@ public class MainActivity extends AppCompatActivity
             });
         }
     }
-    class DeleteRoutesTask extends AsyncTask<Integer, Void, Boolean> {
+
+
+    class DeleteRouteTask extends AsyncTask<Integer, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(Integer... integers) {

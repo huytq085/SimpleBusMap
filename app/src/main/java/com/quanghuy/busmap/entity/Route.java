@@ -1,10 +1,12 @@
 package com.quanghuy.busmap.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by Huy on 3/22/2018.
  */
 
-public class Route {
+public class Route implements Serializable {
     private int code;
     private String name;
     private String routeAB;
@@ -14,9 +16,9 @@ public class Route {
     private String distance;
     private String vehicleType;
     private String time;
-    private float basicPrice;
-    private float studentPrice;
-    private float monthlyPrice;
+    private int basicPrice;
+    private int studentPrice;
+    private int monthlyPrice;
     private String totalTrips;
     private String tripTime;
     private String tripSpacing;
@@ -24,7 +26,7 @@ public class Route {
     public Route() {
     }
 
-    public Route(int code, String name, String routeAB, String routeBA, String agencies, String type, String distance, String vehicleType, String time, float basicPrice, float studentPrice, float monthlyPrice, String totalTrips, String tripTime, String tripSpacing) {
+    public Route(int code, String name, String routeAB, String routeBA, String agencies, String type, String distance, String vehicleType, String time, int basicPrice, int studentPrice, int monthlyPrice, String totalTrips, String tripTime, String tripSpacing) {
         this.code = code;
         this.name = name;
         this.routeAB = routeAB;
@@ -113,27 +115,27 @@ public class Route {
         this.time = time;
     }
 
-    public float getBasicPrice() {
+    public int getBasicPrice() {
         return basicPrice;
     }
 
-    public void setBasicPrice(float basicPrice) {
+    public void setBasicPrice(int basicPrice) {
         this.basicPrice = basicPrice;
     }
 
-    public float getStudentPrice() {
+    public int getStudentPrice() {
         return studentPrice;
     }
 
-    public void setStudentPrice(float studentPrice) {
+    public void setStudentPrice(int studentPrice) {
         this.studentPrice = studentPrice;
     }
 
-    public float getMonthlyPrice() {
+    public int getMonthlyPrice() {
         return monthlyPrice;
     }
 
-    public void setMonthlyPrice(float monthlyPrice) {
+    public void setMonthlyPrice(int monthlyPrice) {
         this.monthlyPrice = monthlyPrice;
     }
 
