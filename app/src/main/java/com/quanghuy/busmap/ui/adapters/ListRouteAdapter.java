@@ -1,6 +1,7 @@
 package com.quanghuy.busmap.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.quanghuy.busmap.R;
@@ -21,6 +23,8 @@ import org.apache.commons.lang3.math.NumberUtils;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by Huy on 3/25/2018.
@@ -80,10 +84,15 @@ public class ListRouteAdapter extends BaseAdapter implements Filterable {
             viewHolder.txtName = convertView.findViewById(R.id.tvName);
             viewHolder.txtTime = convertView.findViewById(R.id.tvTime);
             viewHolder.txtRouteCode = convertView.findViewById(R.id.txtRouteCode);
+            viewHolder.layoutWithCircleDrawable = convertView.findViewById(R.id.layoutWithCircleDrawable);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+//        Set random color to code of route
+        Random rnd = new Random();
+        viewHolder.layoutWithCircleDrawable.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
+//        /Set random color to code of route
         viewHolder.txtName.setText(routes.get(position).getName());
         viewHolder.txtTime.setText("Thời gian: " + routes.get(position).getTime());
         viewHolder.txtRouteCode.setText(String.valueOf(routes.get(position).getCode()));
@@ -105,6 +114,7 @@ public class ListRouteAdapter extends BaseAdapter implements Filterable {
         TextView txtName;
         TextView txtTime;
         TextView txtRouteCode;
+        FrameLayout layoutWithCircleDrawable;
 
     }
 
