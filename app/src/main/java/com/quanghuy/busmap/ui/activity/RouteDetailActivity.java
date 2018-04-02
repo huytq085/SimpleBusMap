@@ -1,8 +1,10 @@
 package com.quanghuy.busmap.ui.activity;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.quanghuy.busmap.R;
@@ -30,7 +32,8 @@ public class RouteDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_detail);
         ButterKnife.inject(this);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         Route route = (Route) intent.getSerializableExtra("route");
 
@@ -46,5 +49,16 @@ public class RouteDetailActivity extends AppCompatActivity {
         tvTotalTripsValue.setText(route.getTotalTrips());
         tvTripTimeValue.setText(route.getTripTime());
         tvTripsSpacingValue.setText(route.getTripSpacing());
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

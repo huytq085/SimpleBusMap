@@ -14,7 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="321dp"
         android:layout_weight="1"
-        android:src="@drawable/logo" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/banner" />
+
 
     <ListView
         android:id="@+id/listRoute"

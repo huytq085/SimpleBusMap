@@ -1,5 +1,6 @@
 package com.quanghuy.busmap.ui.activity;
 
+import android.support.v7.app.ActionBar;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +48,8 @@ public class NewRouteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_route);
         ButterKnife.inject(this);
         Intent intent = getIntent();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (intent.hasExtra("route")) {
             final Route route = (Route) intent.getSerializableExtra("route");
@@ -86,6 +90,18 @@ public class NewRouteActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public Route getRouteFromInput(Route route) {

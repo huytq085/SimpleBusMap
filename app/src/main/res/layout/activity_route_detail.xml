@@ -10,9 +10,10 @@
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
-        android:layout_height="189dp"
+        android:layout_height="293dp"
         android:layout_weight="1"
-        android:src="@mipmap/ic_launcher_round" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/banner" />
 
     <ScrollView
         android:id="@+id/scrollDetail"
