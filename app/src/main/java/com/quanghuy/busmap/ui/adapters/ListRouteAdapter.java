@@ -155,6 +155,7 @@ public class ListRouteAdapter extends BaseAdapter implements Filterable {
                         Route route = new Route();
                         route.setName(mStringFilterList.get(i).getName());
                         route.setCode(mStringFilterList.get(i).getCode());
+                        route.setTime(mStringFilterList.get(i).getTime());
 
                         filterList.add(route);
                     }
