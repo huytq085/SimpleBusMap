@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        protected void onPostExecute(List<Route> routes) {
+        protected void onPostExecute(final List<Route> routes) {
             super.onPostExecute(routes);
             System.out.println(JsonUtils.encode(routes));
             listRouteAdapter = new ListRouteAdapter(MainActivity.this, routes);
@@ -262,7 +262,9 @@ public class MainActivity extends AppCompatActivity
             lvRoutes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Toast.makeText(MainActivity.this, version[i]+" "+versionNumber[i], Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), RouteDetailActivity.class);
+                    intent.putExtra("route", routes.get(i));
+                    startActivity(intent);
                 }
             });
         }

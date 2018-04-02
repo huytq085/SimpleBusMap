@@ -77,15 +77,15 @@ public class ListRouteAdapter extends BaseAdapter implements Filterable {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.list_row, parent, false);
 
-            viewHolder.txtName = convertView.findViewById(R.id.aNametxt);
-            viewHolder.txtVersion = convertView.findViewById(R.id.aVersiontxt);
+            viewHolder.txtName = convertView.findViewById(R.id.tvName);
+            viewHolder.txtTime = convertView.findViewById(R.id.tvTime);
             viewHolder.txtRouteCode = convertView.findViewById(R.id.txtRouteCode);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.txtName.setText(routes.get(position).getName());
-        viewHolder.txtVersion.setText("Version: ");
+        viewHolder.txtTime.setText("Thời gian: " + routes.get(position).getTime());
         viewHolder.txtRouteCode.setText(String.valueOf(routes.get(position).getCode()));
 
         return convertView;
@@ -103,7 +103,7 @@ public class ListRouteAdapter extends BaseAdapter implements Filterable {
     private static class ViewHolder {
 
         TextView txtName;
-        TextView txtVersion;
+        TextView txtTime;
         TextView txtRouteCode;
 
     }

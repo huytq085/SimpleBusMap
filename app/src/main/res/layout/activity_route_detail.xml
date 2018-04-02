@@ -20,12 +20,260 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/tvCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Mã số tuyến:"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCodeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvCode"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="01" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvCodeValue"
+                android:layout_margin="10dp"
+                android:text="Tên tuyến:"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvNameValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvName"
+                android:layout_below="@+id/tvCodeValue"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="01" />
+
+            <TextView
+                android:id="@+id/tvRouteAB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNameValue"
+                android:layout_margin="10dp"
+                android:text="Lượt đi: "
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvRouteABValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvRouteAB"
+                android:layout_below="@+id/tvNameValue"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="01" />
+
+
+            <TextView
+                android:id="@+id/tvRouteBA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvRouteABValue"
+                android:layout_margin="10dp"
+                android:text="Lượt về: "
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvRouteBAValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvRouteBA"
+                android:layout_below="@+id/tvRouteABValue"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="01" />
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvRouteBAValue"
+                android:layout_margin="10dp"
+                android:text="Giá: "
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPriceValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvPrice"
+                android:layout_below="@+id/tvRouteBAValue"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="01" />
+
+            <TextView
+                android:id="@+id/tvAgencies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvPriceValue"
+                android:layout_margin="10dp"
+                android:text="Đơn vị đảm nhận: "
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvAgenciesValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvAgencies"
+                android:layout_below="@+id/tvPriceValue"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="01" />
+
+            <TextView
+                android:id="@+id/tvType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvAgenciesValue"
+                android:layout_margin="10dp"
+                android:text="Loại hình hoạt động: "
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTypeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvType"
+                android:layout_below="@+id/tvAgenciesValue"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="01" />
+
+            <TextView
+                android:id="@+id/tvDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTypeValue"
+                android:layout_margin="10dp"
+                android:text="Cự ly: "
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDistanceValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvDistance"
+                android:layout_below="@+id/tvTypeValue"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="01" />
+            <TextView
+                android:id="@+id/tvVehicleType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDistanceValue"
+                android:layout_margin="10dp"
+                android:text="Loại xe: "
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvVehicleTypeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvVehicleType"
+                android:layout_below="@+id/tvDistanceValue"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="01" />
+            <TextView
+                android:id="@+id/tvTripTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvVehicleTypeValue"
+                android:layout_margin="10dp"
+                android:text="Thời gian: "
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTripTimeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvTripTime"
+                android:layout_below="@+id/tvVehicleTypeValue"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="01" />
+            <TextView
+                android:id="@+id/tvTotalTrips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTripTimeValue"
+                android:layout_margin="10dp"
+                android:text="Số chuyến: "
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTotalTripsValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvTotalTrips"
+                android:layout_below="@+id/tvTripTimeValue"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="01" />
+            <TextView
+                android:id="@+id/tvTripsSpacing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTotalTripsValue"
+                android:layout_margin="10dp"
+                android:text="Giãn cách chuyến: "
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvTripsSpacingValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tvTripsSpacing"
+                    android:layout_below="@+id/tvTotalTripsValue"
+                    android:textSize="14dp"
+                    android:layout_margin="10dp"
+                    android:singleLine="false"
+                    android:text="01" />
+
+        </RelativeLayout>
+
     </ScrollView>
 
 </LinearLayout>
