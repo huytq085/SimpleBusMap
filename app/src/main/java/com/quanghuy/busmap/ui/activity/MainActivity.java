@@ -1,5 +1,6 @@
 package com.quanghuy.busmap.ui.activity;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity
 
     private ListRouteAdapter listRouteAdapter;
     private ImageView imgBanner;
+    private final int NEW_ROUTE_REQCODE = 1;
 
     public void setControl() {
         lvRoutes = findViewById(R.id.listRoute);
@@ -173,13 +175,32 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, "onContextItemSelected: EDIT");
             Intent editIntent = new Intent(this, NewRouteActivity.class);
             editIntent.putExtra("route", route);
-            startActivity(editIntent);
+            editIntent.putExtra("routePosition", info.position);
+            startActivityForResult(editIntent, 1);
 
         } else {
             Log.d(TAG, "onContextItemSelected: DELETE");
             new DeleteRouteTask().execute(route.getCode(), info.position);
         }
         return true;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (NEW_ROUTE_REQCODE) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    // TODO Extract the data returned from the child Activity.
+                    Route route = (Route) data.getSerializableExtra("route");
+                    int routePosition = data.getIntExtra("routePosition",0);
+                    routes.set(routePosition, route);
+                    listRouteAdapter.notifyDataSetChanged();
+                    lvRoutes.setSelection(routePosition);
+                }
+                break;
+            }
+        }
     }
 
 
@@ -267,26 +288,6 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
             return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-            alertDialog.setTitle("Alert");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            if (aBoolean) {
-                alertDialog.setMessage("The route has been deleted");
-
-            } else {
-                alertDialog.setMessage("Error");
-            }
-            alertDialog.show();
         }
     }
 }

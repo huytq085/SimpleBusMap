@@ -1,5 +1,6 @@
 package com.quanghuy.busmap.ui.activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import com.quanghuy.busmap.R;
 import com.quanghuy.busmap.entity.Route;
 import com.quanghuy.busmap.pc.RouteAPIClient;
+import com.quanghuy.busmap.ui.adapters.ListRouteAdapter;
 import com.quanghuy.busmap.utils.JsonUtils;
 
 import butterknife.ButterKnife;
@@ -21,6 +23,7 @@ import butterknife.InjectView;
 
 public class NewRouteActivity extends AppCompatActivity {
     private final String TAG = "NewRoute";
+    private int routePosition;
     @InjectView(R.id.btnAddRoute) Button btnAddRoute;
     @InjectView(R.id.input_code) EditText inputCode;
     @InjectView(R.id.input_name) EditText inputName;
@@ -37,24 +40,6 @@ public class NewRouteActivity extends AppCompatActivity {
     @InjectView(R.id.input_totalTrips) EditText inputTotalTrips;
     @InjectView(R.id.input_tripTime) EditText inputTripTime;
     @InjectView(R.id.input_tripSpacing) EditText inputTripSpacing;
-//    private void setControl() {
-//        btnAddRoute = findViewById(R.id.btnAddRoute);
-//        inputCode = findViewById(R.id.input_code);
-//        inputName = findViewById(R.id.input_name);
-//        inputRouteAB = findViewById(R.id.input_routeAB);
-//        inputRouteBA = findViewById(R.id.input_routeBA);
-//        inputAgencies = findViewById(R.id.input_agencies);
-//        inputType= findViewById(R.id.input_type);
-//        inputDistance = findViewById(R.id.input_distance);
-//        inputTime = findViewById(R.id.input_time);
-//        inputvehicleType = findViewById(R.id.input_vehicleType);
-//        inputBasicPrice = findViewById(R.id.input_basicPrice);
-//        inputStudenPrice= findViewById(R.id.input_studentPrice);
-//        inputMonthlyPrice= findViewById(R.id.input_monthlyPrice);
-//        inputTotalTrips= findViewById(R.id.input_totalTrips);
-//        inputTripTime= findViewById(R.id.input_tripTime);
-//        inputTripSpacing= findViewById(R.id.input_tripSpacing);
-//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +49,7 @@ public class NewRouteActivity extends AppCompatActivity {
 
         if (intent.hasExtra("route")) {
             final Route route = (Route) intent.getSerializableExtra("route");
+            routePosition = intent.getIntExtra("routePosition",0);
             Log.d(TAG, "hasExtra: " + JsonUtils.encode(route));
             inputCode.setText(String.valueOf(route.getCode()));
             inputName.setText(route.getName());
@@ -94,6 +80,7 @@ public class NewRouteActivity extends AppCompatActivity {
                     Route route = new Route();
                     route = getRouteFromInput(route);
                     new AddRouteTask().execute(route);
+
                 }
             });
         }
@@ -154,7 +141,16 @@ public class NewRouteActivity extends AppCompatActivity {
         protected Boolean doInBackground(Route... routes) {
             Route route = routes[0];
             RouteAPIClient client = new RouteAPIClient();
-            return client.updateRoute(route);
+            if(client.updateRoute(route)){
+                Intent resultIntent = new Intent();
+                // TODO Add extras or a data URI to this intent as appropriate.
+                resultIntent.putExtra("route", route);
+                resultIntent.putExtra("routePosition", routePosition);
+                setResult(Activity.RESULT_OK, resultIntent);
+
+                return true;
+            }
+            return false;
         }
 
         @Override
@@ -166,14 +162,17 @@ public class NewRouteActivity extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            finish();
                         }
                     });
             if (aBoolean) {
                 alertDialog.setMessage("The route has been updated");
+
             } else {
                 alertDialog.setMessage("Error");
             }
             alertDialog.show();
+
         }
     }
 
