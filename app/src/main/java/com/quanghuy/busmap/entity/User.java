@@ -1,9 +1,11 @@
 package com.quanghuy.busmap.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by Huy on 3/25/2018.
  */
-public class User {
+public class User implements Serializable {
     private String userName;
     private String password;
     private long userId;

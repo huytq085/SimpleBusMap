@@ -56,13 +56,16 @@ public class UserManager {
     }
 
 //    Getting single user
-    public User getUser(long userId) {
-        Cursor cursor = database.query(UserDBHandler.TABLE_USER, allColumns, UserDBHandler.COLUMN_ID + "=?", new String[]{String.valueOf(userId)}, null, null, null);
+    public User getUser(String userName) {
+        Cursor cursor = database.query(UserDBHandler.TABLE_USER, allColumns, UserDBHandler.COLUMN_USERNAME + "=?", new String[]{userName}, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        User user = new User(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
-        return user;
+        if (cursor.getCount() > 0){
+            User user = new User(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
+            return user;
+        }
+        return null;
     }
 
     public List<User> getAllUsers(){

@@ -17,7 +17,6 @@ import android.widget.EditText;
 import com.quanghuy.busmap.R;
 import com.quanghuy.busmap.entity.Route;
 import com.quanghuy.busmap.pc.RouteAPIClient;
-import com.quanghuy.busmap.ui.adapters.ListRouteAdapter;
 import com.quanghuy.busmap.utils.JsonUtils;
 
 import butterknife.ButterKnife;
@@ -28,7 +27,7 @@ public class NewRouteActivity extends AppCompatActivity {
     private int routePosition;
     @InjectView(R.id.btnAddRoute) Button btnAddRoute;
     @InjectView(R.id.input_code) EditText inputCode;
-    @InjectView(R.id.input_name) EditText inputName;
+    @InjectView(R.id.txtUserName) EditText inputName;
     @InjectView(R.id.input_routeAB) EditText inputRouteAB;
     @InjectView(R.id.input_routeBA) EditText inputRouteBA;
     @InjectView(R.id.input_agencies) EditText inputAgencies;

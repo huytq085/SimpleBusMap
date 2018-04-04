@@ -28,7 +28,7 @@ public class UserDBHandler extends SQLiteOpenHelper {
                     COLUMN_PASSWORD+ " TEXT, " +
                     COLUMN_FIRST_NAME + " TEXT, " +
                     COLUMN_LAST_NAME + " TEXT, " +
-                    COLUMN_GENDER + " TEXT, " +
+                    COLUMN_GENDER + " TEXT" +
                     ")";
 
     public UserDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
