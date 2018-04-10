@@ -51,7 +51,7 @@ public class UserManager {
         values.put(UserDBHandler.COLUMN_PASSWORD, user.getPassword());
         values.put(UserDBHandler.COLUMN_USERNAME, user.getUserName());
         long insertId = database.insert(UserDBHandler.TABLE_USER, null, values);
-        user.setUserId(insertId);
+//        user.setUserId(insertId);
         return user;
     }
 
@@ -61,10 +61,10 @@ public class UserManager {
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        if (cursor.getCount() > 0){
-            User user = new User(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
-            return user;
-        }
+//        if (cursor.getCount() > 0){
+//            User user = new User(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
+//            return user;
+//        }
         return null;
     }
 
@@ -77,7 +77,7 @@ public class UserManager {
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 User user = new User();
-                user.setUserId(cursor.getLong(cursor.getColumnIndex(UserDBHandler.COLUMN_ID)));
+//                user.setUserId(cursor.getLong(cursor.getColumnIndex(UserDBHandler.COLUMN_ID)));
                 user.setUserName(cursor.getString(cursor.getColumnIndex(UserDBHandler.COLUMN_USERNAME)));
                 user.setPassword(cursor.getString(cursor.getColumnIndex(UserDBHandler.COLUMN_PASSWORD)));
                 user.setFirstName(cursor.getString(cursor.getColumnIndex(UserDBHandler.COLUMN_FIRST_NAME)));

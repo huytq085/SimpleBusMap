@@ -1,4 +1,4 @@
-package com.quanghuy.busmap.pc;
+package com.quanghuy.busmap.client;
 
 import android.util.Log;
 
@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.quanghuy.busmap.entity.Route;
 import com.quanghuy.busmap.utils.JsonUtils;
-import com.quanghuy.busmap.utils.RestAPIClient;
 
 public class RouteAPIClient extends RestAPIClient{
 	private static final String DOMAIN_PATTERN = "http://busmap.somee.com/%s";

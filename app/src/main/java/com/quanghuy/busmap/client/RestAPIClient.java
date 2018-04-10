@@ -1,4 +1,4 @@
-package com.quanghuy.busmap.utils;
+package com.quanghuy.busmap.client;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

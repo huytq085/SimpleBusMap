@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "242088970142",
+    "firebase_url": "https://busmap-bf8a0.firebaseio.com",
+    "project_id": "busmap-bf8a0",
+    "storage_bucket": "busmap-bf8a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242088970142:android:72a13d1f1027f555",
+        "android_client_info": {
+          "package_name": "com.quanghuy.busmap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242088970142-q54i9krank2sc7ik61vj480evbun4nmg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5WhZDMnigrgpQMIzOZIDDt11zR0yV6CU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

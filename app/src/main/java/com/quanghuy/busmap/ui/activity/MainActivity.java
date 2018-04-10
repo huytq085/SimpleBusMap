@@ -2,6 +2,7 @@ package com.quanghuy.busmap.ui.activity;
 
 import android.app.Activity;
 import android.app.SearchManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +27,7 @@ import android.widget.ListView;
 
 import com.quanghuy.busmap.R;
 import com.quanghuy.busmap.entity.Route;
-import com.quanghuy.busmap.pc.RouteAPIClient;
+import com.quanghuy.busmap.client.RouteAPIClient;
 import com.quanghuy.busmap.ui.adapters.ListRouteAdapter;
 import com.quanghuy.busmap.utils.JsonUtils;
 
@@ -159,8 +161,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        Route route = (Route)listRouteAdapter.getItem(info.position);
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        final Route route = (Route)listRouteAdapter.getItem(info.position);
         int menuItemIndex = item.getItemId();
         if (menuItemIndex == 0){
             Log.d(TAG, "onContextItemSelected: EDIT");
@@ -171,7 +173,20 @@ public class MainActivity extends AppCompatActivity
 
         } else {
             Log.d(TAG, "onContextItemSelected: DELETE");
-            new DeleteRouteTask().execute(route.getCode(), info.position);
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Confirm")
+                    .setMessage("Are you sure?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            new DeleteRouteTask().execute(route.getCode(), info.position);
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+
         }
         return true;
     }
@@ -282,5 +297,11 @@ public class MainActivity extends AppCompatActivity
             }
             return false;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finishAffinity();
     }
 }

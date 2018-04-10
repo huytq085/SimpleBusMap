@@ -10,6 +10,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.quanghuy.busmap.database.OnCheckDataListener;
+import com.quanghuy.busmap.database.UserFirebaseHandler;
 import com.quanghuy.busmap.entity.User;
 import com.quanghuy.busmap.database.UserManager;
 import com.quanghuy.busmap.utils.JsonUtils;
@@ -44,6 +46,8 @@ public class SignUpActivity extends AppCompatActivity {
         userManager = new UserManager(this);
         userManager.open();
 
+        final UserFirebaseHandler userFirebaseHandler = new UserFirebaseHandler();
+
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,8 +61,28 @@ public class SignUpActivity extends AppCompatActivity {
                 user.setGender(rbGender.getText().toString());
                 Log.d(TAG, "user object: " + JsonUtils.encode(user));
                 try {
-                    user = userManager.addUser(user);
-                    Toast.makeText(SignUpActivity.this, "Successful!", Toast.LENGTH_LONG).show();
+//                    user = userManager.addUser(user);
+                    userFirebaseHandler.addUser(user, new OnCheckDataListener() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onSuccess(Boolean ok) {
+                            if (ok){
+                                Toast.makeText(SignUpActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(SignUpActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailed(Boolean ok) {
+
+                        }
+                    });
+
                 } catch (Exception e){
                     e.printStackTrace();
                 }

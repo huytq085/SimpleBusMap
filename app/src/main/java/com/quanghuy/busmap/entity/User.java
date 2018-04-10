@@ -8,13 +8,13 @@ import java.io.Serializable;
 public class User implements Serializable {
     private String userName;
     private String password;
-    private long userId;
+    private String userId;
     private String firstName;
     private String lastName;
     private String gender;
     public User() {
     }
-    public User(long userId, String userName, String password, String firstName, String lastName, String gender) {
+    public User(String userId, String userName, String password, String firstName, String lastName, String gender) {
         this.userName = userName;
         this.password = password;
         this.userId = userId;
@@ -55,11 +55,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

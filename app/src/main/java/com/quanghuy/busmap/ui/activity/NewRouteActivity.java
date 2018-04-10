@@ -16,7 +16,7 @@ import android.widget.EditText;
 
 import com.quanghuy.busmap.R;
 import com.quanghuy.busmap.entity.Route;
-import com.quanghuy.busmap.pc.RouteAPIClient;
+import com.quanghuy.busmap.client.RouteAPIClient;
 import com.quanghuy.busmap.utils.JsonUtils;
 
 import butterknife.ButterKnife;
