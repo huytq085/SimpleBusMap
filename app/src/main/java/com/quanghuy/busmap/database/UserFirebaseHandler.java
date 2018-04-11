@@ -54,19 +54,20 @@ public class UserFirebaseHandler {
     public void updateUser(User user){
         refUser.child(user.getUserId()).setValue(user);
     }
-//    TODO: Need to access to userName = userName
     public void getUser(String userName, final OnGetDataListener onGetDataListener){
         Query query =refUser.orderByChild("userName").equalTo(userName);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Log.d(TAG, "onDataChange: EXIST ===================================" + dataSnapshot.getKey());
-                    User user = dataSnapshot.child(dataSnapshot.getKey()).getValue(User.class);
-                    Log.d(TAG, "onDataChange: " + JsonUtils.encode(user));
-                    onGetDataListener.onSuccess(user);
+                    for (DataSnapshot data : dataSnapshot.getChildren()){
+                        User user = data.getValue(User.class);
+                        Log.i(TAG, "onDataChange: " + JsonUtils.encode(user));
+                        onGetDataListener.onSuccess(user);
+                    }
+
                 } else {
-                    Log.d(TAG, "onDataChange: NOT EXIST ===================================");
+                    Log.d(TAG, "onDataChange: ================= NOT EXIST ===================================");
                     onGetDataListener.onFailed(null);
                 }
             }
