@@ -128,6 +128,10 @@ public class NewRouteActivity extends AppCompatActivity {
         protected Boolean doInBackground(Route... routes) {
             Route route = routes[0];
             RouteAPIClient client = new RouteAPIClient();
+            Intent resultIntent = new Intent();
+            // TODO Add extras or a data URI to this intent as appropriate.
+            resultIntent.putExtra("route", route);
+            setResult(Activity.RESULT_OK, resultIntent);
             return client.addRoute(route);
         }
 

@@ -1,5 +1,6 @@
 package com.quanghuy.busmap.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import butterknife.InjectView;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
+    public static Activity fa;
 
     @InjectView(R.id.txtUserName) EditText txtUserName;
     @InjectView(R.id.txtPassword) EditText txtPassword;
@@ -36,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        fa = this;
         ButterKnife.inject(this);
 
         userManager = new UserManager(this);

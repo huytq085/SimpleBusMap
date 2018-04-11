@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     private ListRouteAdapter listRouteAdapter;
     private ImageView imgBanner;
     private final int NEW_ROUTE_REQCODE = 1;
+    private final int UPDATE_ROUTE_REQCODE = 2;
 
     public void setControl() {
         lvRoutes = findViewById(R.id.listRoute);
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        LoginActivity.fa.finish();
         setControl();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent addRouteIntent = new Intent(MainActivity.this, NewRouteActivity.class);
-                startActivity(addRouteIntent);
+                startActivityForResult(addRouteIntent, UPDATE_ROUTE_REQCODE);
             }
         });
 
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity
             Intent editIntent = new Intent(this, NewRouteActivity.class);
             editIntent.putExtra("route", route);
             editIntent.putExtra("routePosition", info.position);
-            startActivityForResult(editIntent, 1);
+            startActivityForResult(editIntent, UPDATE_ROUTE_REQCODE);
 
         } else {
             Log.d(TAG, "onContextItemSelected: DELETE");
@@ -199,6 +200,16 @@ public class MainActivity extends AppCompatActivity
                 if (resultCode == Activity.RESULT_OK) {
                     // TODO Extract the data returned from the child Activity.
                     Route route = (Route) data.getSerializableExtra("route");
+                    routes.add(route);
+                    listRouteAdapter.notifyDataSetChanged();
+                    lvRoutes.setSelection(routes.indexOf(route));
+                }
+                break;
+            }
+            case (UPDATE_ROUTE_REQCODE) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    // TODO Extract the data returned from the child Activity.
+                    Route route = (Route) data.getSerializableExtra("route");
                     int routePosition = data.getIntExtra("routePosition",0);
                     routes.set(routePosition, route);
                     listRouteAdapter.notifyDataSetChanged();
@@ -206,7 +217,9 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             }
+
         }
+
     }
 
 
@@ -297,11 +310,5 @@ public class MainActivity extends AppCompatActivity
             }
             return false;
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finishAffinity();
     }
 }
