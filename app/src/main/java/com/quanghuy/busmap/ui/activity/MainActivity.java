@@ -24,10 +24,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.quanghuy.busmap.R;
 import com.quanghuy.busmap.entity.Route;
 import com.quanghuy.busmap.client.RouteAPIClient;
+import com.quanghuy.busmap.entity.User;
 import com.quanghuy.busmap.ui.adapters.ListRouteAdapter;
 import com.quanghuy.busmap.utils.JsonUtils;
 
@@ -40,16 +42,24 @@ public class MainActivity extends AppCompatActivity
 
     private ListView lvRoutes;
 
-    private List<Route> routes = new ArrayList<>();;
+    private List<Route> routes = new ArrayList<>();
+    ;
 
     private ListRouteAdapter listRouteAdapter;
     private ImageView imgBanner;
     private final int NEW_ROUTE_REQCODE = 1;
     private final int UPDATE_ROUTE_REQCODE = 2;
 
+    private User currentUser;
+
+    private TextView txtUserName;
+    private TextView txtName;
+
     public void setControl() {
         lvRoutes = findViewById(R.id.listRoute);
         imgBanner = findViewById(R.id.imgBanner);
+
+
     }
 
     @Override
@@ -64,12 +74,26 @@ public class MainActivity extends AppCompatActivity
             //use the query to search your data somehow
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         LoginActivity.fa.finish();
         setControl();
+
+
+
+        Intent intent = getIntent();
+        currentUser = (User) intent.getSerializableExtra("user");
+
+        if (!currentUser.getUserName().equals("admin")) {
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_manage).setVisible(false);
+        }
+
+        invalidateOptionsMenu();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -105,6 +129,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+
     }
 
     @Override
@@ -135,26 +161,29 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextChange(String newText) {
                 Log.d("Tag", "onQueryTextChange: " + newText);
 //                if (newText != null && TextUtils.getTrimmedLength(newText) > 0) {
-                    listRouteAdapter.getFilter().filter(newText);
+                listRouteAdapter.getFilter().filter(newText);
 //                }
                 return false;
             }
         });
-
+        txtName = findViewById(R.id.txtName);
+        txtUserName = findViewById(R.id.txtUserName);
+        txtName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
+        txtUserName.setText("@"+currentUser.getUserName());
         return true;
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        Log.d(TAG, "onCreateContextMenu: " );
-        if (v.getId()==R.id.listRoute) {
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+        Log.d(TAG, "onCreateContextMenu: ");
+        if (v.getId() == R.id.listRoute) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             System.out.println(listRouteAdapter.getItem(info.position).getClass());
-            Route route = (Route)listRouteAdapter.getItem(info.position);
+            Route route = (Route) listRouteAdapter.getItem(info.position);
             menu.setHeaderTitle("Mã tuyến: " + String.valueOf(route.getCode()));
             String[] menuItems = getResources().getStringArray(R.array.action_menu);
-            for (int i = 0; i<menuItems.length; i++) {
+            for (int i = 0; i < menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
             }
         }
@@ -162,10 +191,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        final Route route = (Route)listRouteAdapter.getItem(info.position);
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final Route route = (Route) listRouteAdapter.getItem(info.position);
         int menuItemIndex = item.getItemId();
-        if (menuItemIndex == 0){
+        if (menuItemIndex == 0) {
             Log.d(TAG, "onContextItemSelected: EDIT");
             Intent editIntent = new Intent(this, NewRouteActivity.class);
             editIntent.putExtra("route", route);
@@ -195,8 +224,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (NEW_ROUTE_REQCODE) : {
+        switch (requestCode) {
+            case (NEW_ROUTE_REQCODE): {
                 if (resultCode == Activity.RESULT_OK) {
                     // TODO Extract the data returned from the child Activity.
                     Route route = (Route) data.getSerializableExtra("route");
@@ -206,11 +235,11 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             }
-            case (UPDATE_ROUTE_REQCODE) : {
+            case (UPDATE_ROUTE_REQCODE): {
                 if (resultCode == Activity.RESULT_OK) {
                     // TODO Extract the data returned from the child Activity.
                     Route route = (Route) data.getSerializableExtra("route");
-                    int routePosition = data.getIntExtra("routePosition",0);
+                    int routePosition = data.getIntExtra("routePosition", 0);
                     routes.set(routePosition, route);
                     listRouteAdapter.notifyDataSetChanged();
                     lvRoutes.setSelection(routePosition);
@@ -251,7 +280,13 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-
+            Intent intent = new Intent(this, UserActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_logout) {
+            currentUser = null;
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -298,7 +333,7 @@ public class MainActivity extends AppCompatActivity
             int pos = integers[1];
             Log.d(TAG, "code: " + code + " \npos: " + pos);
             RouteAPIClient client = new RouteAPIClient();
-            if (client.deleteRoute(code)){
+            if (client.deleteRoute(code)) {
                 routes.remove(pos);
                 runOnUiThread(new Runnable() {
                     @Override

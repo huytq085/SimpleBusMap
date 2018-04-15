@@ -82,7 +82,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailed(Object object) {
-
+                            Log.d(TAG, "Sai cmnr");
+                            Toast.makeText(LoginActivity.this, "Sai thông tin đăng nhập! Hãy nhập lại.", Toast.LENGTH_LONG).show();
                         }
                     });
 

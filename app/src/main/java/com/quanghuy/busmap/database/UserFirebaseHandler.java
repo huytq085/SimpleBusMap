@@ -12,6 +12,8 @@ import com.quanghuy.busmap.entity.User;
 import com.google.firebase.database.DatabaseReference;
 import com.quanghuy.busmap.utils.JsonUtils;
 
+import java.util.Map;
+
 /**
  * Created by Huy on 4/10/2018.
  */
@@ -25,7 +27,11 @@ public class UserFirebaseHandler {
     DatabaseReference refUser;
 
     public UserFirebaseHandler(){
-        refUser = FirebaseDatabase.getInstance().getReference("User");
+        refUser = FirebaseDatabase.getInstance().getReference("users");
+    }
+
+    public void updateUser(Map<String, Object> user) {
+        refUser.updateChildren(user);
     }
 
     public void addUser(final User user, final OnCheckDataListener onCheckDataListener){
@@ -55,6 +61,7 @@ public class UserFirebaseHandler {
         refUser.child(user.getUserId()).setValue(user);
     }
     public void getUser(String userName, final OnGetDataListener onGetDataListener){
+        Log.d(TAG, "getUser: " + userName);
         Query query =refUser.orderByChild("userName").equalTo(userName);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

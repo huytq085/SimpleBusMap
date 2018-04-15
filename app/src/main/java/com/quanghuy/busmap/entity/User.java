@@ -1,6 +1,8 @@
 package com.quanghuy.busmap.entity;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Huy on 3/25/2018.
@@ -12,6 +14,17 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String gender;
+
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("userId", userId);
+        result.put("userName", userName);
+        result.put("password", password);
+        result.put("firstName", firstName);
+        result.put("lastName", lastName);
+        result.put("gender", gender);
+        return result;
+    }
     public User() {
     }
     public User(String userId, String userName, String password, String firstName, String lastName, String gender) {
