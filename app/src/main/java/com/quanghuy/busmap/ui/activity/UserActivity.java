@@ -103,8 +103,6 @@ public class UserActivity extends AppCompatActivity {
     public int getItemIndex(User user) {
         int index = -1;
         for (User userResult : result) {
-            Log.d(TAG, "getItemIndex: userList: " + userResult.getUserId());
-            Log.d(TAG, "getItemIndex: userFirebase: " + user.getUserId());
             if (user.getUserId().equals(userResult.getUserId())) {
                 index = result.indexOf(userResult);
             }
@@ -128,9 +126,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 User user = dataSnapshot.getValue(User.class);
-                Log.d(TAG, "onChildChanged: KEY: " + dataSnapshot.getKey());
                 int index = getItemIndex(user);
-                Log.d(TAG, "onChildChanged: index: " + index);
                 if (index >= 0) {
                     result.set(index, user);
                 }

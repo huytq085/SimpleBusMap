@@ -2,8 +2,10 @@ package com.quanghuy.busmap.ui.activity;
 
 import android.app.Activity;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.quanghuy.busmap.Constants;
 import com.quanghuy.busmap.R;
 import com.quanghuy.busmap.entity.Route;
 import com.quanghuy.busmap.client.RouteAPIClient;
@@ -49,11 +52,10 @@ public class MainActivity extends AppCompatActivity
     private ImageView imgBanner;
     private final int NEW_ROUTE_REQCODE = 1;
     private final int UPDATE_ROUTE_REQCODE = 2;
-
     private User currentUser;
-
     private TextView txtUserName;
     private TextView txtName;
+    private SharedPreferences mPrefs;
 
     public void setControl() {
         lvRoutes = findViewById(R.id.listRoute);
@@ -81,20 +83,16 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         LoginActivity.fa.finish();
         setControl();
-
-
-
-        Intent intent = getIntent();
-        currentUser = (User) intent.getSerializableExtra("user");
-
-        if (!currentUser.getUserName().equals("admin")) {
+        mPrefs  = this.getSharedPreferences(Constants.PACKAGE_NAME, Context.MODE_PRIVATE);
+        String currentUserString = mPrefs.getString("currentUser", "");
+        currentUser = JsonUtils.decode(currentUserString, User.class);
+        Log.d(TAG, "onCreate: "+ JsonUtils.encode(currentUser));
+        if (currentUser != null && !currentUser.getUserName().equals("admin")) {
             NavigationView navigationView = findViewById(R.id.nav_view);
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_manage).setVisible(false);
         }
-
         invalidateOptionsMenu();
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -283,7 +281,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, UserActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
-            currentUser = null;
+            mPrefs.edit().remove("currentUser").commit();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();

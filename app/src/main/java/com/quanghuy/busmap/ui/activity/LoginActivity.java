@@ -1,7 +1,9 @@
 package com.quanghuy.busmap.ui.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.quanghuy.busmap.Constants;
 import com.quanghuy.busmap.R;
 import com.quanghuy.busmap.SignUpActivity;
 import com.quanghuy.busmap.database.OnGetDataListener;
@@ -24,7 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = "SignupActivity";
+    private static final String TAG = "LoginActivity";
     public static Activity fa;
 
     @InjectView(R.id.txtUserName) EditText txtUserName;
@@ -34,9 +37,20 @@ public class LoginActivity extends AppCompatActivity {
 
     private UserManager userManager;
     private UserFirebaseHandler userFirebaseHandler;
+    private SharedPreferences mPrefs;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPrefs  = this.getSharedPreferences(Constants.PACKAGE_NAME, Context.MODE_PRIVATE);
+        String currentUserString = mPrefs.getString("currentUser", "");
+        User currentUser = JsonUtils.decode(currentUserString, User.class);
+        Log.d(TAG, "onCreate: " + JsonUtils.encode(currentUser));
+
+        if (currentUser != null) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
         setContentView(R.layout.activity_login);
         fa = this;
         ButterKnife.inject(this);
@@ -71,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                             user[0] = (User) object;
                             Log.d(TAG, "onSuccess: " + JsonUtils.encode(user[0]));
                             if (user[0] != null && checkValid(user[0])) {
+                                mPrefs.edit().putString("currentUser", JsonUtils.encode(user[0])).commit();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.putExtra("user", user[0]);
                                 startActivity(intent);
