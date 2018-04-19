@@ -22,6 +22,7 @@ import com.quanghuy.busmap.database.UserFirebaseHandler;
 import com.quanghuy.busmap.database.UserManager;
 import com.quanghuy.busmap.entity.User;
 import com.quanghuy.busmap.utils.JsonUtils;
+import com.quanghuy.busmap.utils.SharedPrefsUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,13 +38,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private UserManager userManager;
     private UserFirebaseHandler userFirebaseHandler;
-    private SharedPreferences mPrefs;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPrefs  = this.getSharedPreferences(Constants.PACKAGE_NAME, Context.MODE_PRIVATE);
-        String currentUserString = mPrefs.getString("currentUser", "");
-        User currentUser = JsonUtils.decode(currentUserString, User.class);
+        User currentUser = SharedPrefsUtils.getCurrentUser(this);
         Log.d(TAG, "onCreate: " + JsonUtils.encode(currentUser));
 
         if (currentUser != null) {
@@ -85,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                             user[0] = (User) object;
                             Log.d(TAG, "onSuccess: " + JsonUtils.encode(user[0]));
                             if (user[0] != null && checkValid(user[0])) {
-                                mPrefs.edit().putString("currentUser", JsonUtils.encode(user[0])).commit();
+                                SharedPrefsUtils.setCurrentUser(LoginActivity.this, user[0]);
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.putExtra("user", user[0]);
                                 startActivity(intent);

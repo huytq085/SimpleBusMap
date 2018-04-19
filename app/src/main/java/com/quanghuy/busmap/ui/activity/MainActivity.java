@@ -35,6 +35,7 @@ import com.quanghuy.busmap.client.RouteAPIClient;
 import com.quanghuy.busmap.entity.User;
 import com.quanghuy.busmap.ui.adapters.ListRouteAdapter;
 import com.quanghuy.busmap.utils.JsonUtils;
+import com.quanghuy.busmap.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,13 +56,9 @@ public class MainActivity extends AppCompatActivity
     private User currentUser;
     private TextView txtUserName;
     private TextView txtName;
-    private SharedPreferences mPrefs;
-
     public void setControl() {
         lvRoutes = findViewById(R.id.listRoute);
         imgBanner = findViewById(R.id.imgBanner);
-
-
     }
 
     @Override
@@ -83,9 +80,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         LoginActivity.fa.finish();
         setControl();
-        mPrefs  = this.getSharedPreferences(Constants.PACKAGE_NAME, Context.MODE_PRIVATE);
-        String currentUserString = mPrefs.getString("currentUser", "");
-        currentUser = JsonUtils.decode(currentUserString, User.class);
+        currentUser = SharedPrefsUtils.getCurrentUser(this);
         Log.d(TAG, "onCreate: "+ JsonUtils.encode(currentUser));
         if (currentUser != null && !currentUser.getUserName().equals("admin")) {
             NavigationView navigationView = findViewById(R.id.nav_view);
@@ -281,7 +276,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, UserActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
-            mPrefs.edit().remove("currentUser").commit();
+            SharedPrefsUtils.removeCurrentUser(this);
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
