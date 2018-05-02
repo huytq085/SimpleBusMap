@@ -78,6 +78,7 @@ public class RestAPIClient {
     }
 
     public Response put(String url, String data) throws IOException {
+        Log.d("=====================", "put: " + String.format(REQUEST_HEADER_AUTH_NAME, tokenType, accessToken));
         RequestBody body = RequestBody.create(contentType, data);
         Request request = new Request.Builder()
                 .addHeader("content-type", headerContentType)

@@ -47,4 +47,35 @@ public class UserAPIClient extends RestAPIClient {
         }
         return user;
     }
+
+    public boolean register(User user) {
+        String url = String.format(DOMAIN_PATTERN, SIGNUP_URL);
+        String data = JsonUtils.encode(user);
+        Response res = null;
+        try {
+            res = post(url, data);
+            String resBody = res.body().string();
+            if (resBody.equals("true") || resBody.equals("false")){
+                return Boolean.valueOf(resBody);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean update(User user) {
+        String url = String.format(DOMAIN_PATTERN, UPDATE_URL);
+        String data = JsonUtils.encode(user);
+        Response res = null;
+        try {
+            res = put(url, data);
+            String resBody = res.body().string();
+            if (resBody.equals("true") || resBody.equals("false")){
+                return Boolean.valueOf(resBody);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

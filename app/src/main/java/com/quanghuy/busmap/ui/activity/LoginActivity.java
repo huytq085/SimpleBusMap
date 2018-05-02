@@ -103,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
             UserAPIClient client = new UserAPIClient();
             User user = client.login(username, password);
             if (user != null) {
+                Log.d(TAG, "doInBackground: " + JsonUtils.encode(user));
                 SharedPrefsUtils.setCurrentUser(LoginActivity.this, user);
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);

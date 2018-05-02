@@ -15,8 +15,16 @@ public class User implements Serializable {
     private String gender;
     private String address;
     private String phone;
-    private String accessToken;
+    private String access_token;
+    private int expires_in;
 
+    public int getExpires_in() {
+        return expires_in;
+    }
+
+    public void setExpires_in(int expires_in) {
+        this.expires_in = expires_in;
+    }
 
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
@@ -37,12 +45,12 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getAccess_token() {
+        return access_token;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 
     public String getAddress() {

@@ -322,7 +322,7 @@ public class MainActivity extends AppCompatActivity
             int code = integers[0];
             int pos = integers[1];
             Log.d(TAG, "code: " + code + " \npos: " + pos);
-            RouteAPIClient client = new RouteAPIClient();
+            RouteAPIClient client = new RouteAPIClient(currentUser.getAccess_token());
             if (client.deleteRoute(code)) {
                 routes.remove(pos);
                 runOnUiThread(new Runnable() {

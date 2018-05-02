@@ -17,7 +17,9 @@ import android.widget.EditText;
 import com.quanghuy.busmap.R;
 import com.quanghuy.busmap.entity.Route;
 import com.quanghuy.busmap.client.RouteAPIClient;
+import com.quanghuy.busmap.entity.User;
 import com.quanghuy.busmap.utils.JsonUtils;
+import com.quanghuy.busmap.utils.SharedPrefsUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -41,11 +43,14 @@ public class NewRouteActivity extends AppCompatActivity {
     @InjectView(R.id.input_totalTrips) EditText inputTotalTrips;
     @InjectView(R.id.input_tripTime) EditText inputTripTime;
     @InjectView(R.id.input_tripSpacing) EditText inputTripSpacing;
+
+    private User currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_route);
         ButterKnife.inject(this);
+        currentUser = SharedPrefsUtils.getCurrentUser(this);
         Intent intent = getIntent();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -127,7 +132,7 @@ public class NewRouteActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Route... routes) {
             Route route = routes[0];
-            RouteAPIClient client = new RouteAPIClient();
+            RouteAPIClient client = new RouteAPIClient(currentUser.getAccess_token());
             Intent resultIntent = new Intent();
             // TODO Add extras or a data URI to this intent as appropriate.
             resultIntent.putExtra("route", route);
@@ -161,7 +166,8 @@ public class NewRouteActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Route... routes) {
             Route route = routes[0];
-            RouteAPIClient client = new RouteAPIClient();
+            Log.d(TAG, "doInBackground: accessToken: " + currentUser.getAccess_token());
+            RouteAPIClient client = new RouteAPIClient(currentUser.getAccess_token());
             if(client.updateRoute(route)){
                 Intent resultIntent = new Intent();
                 // TODO Add extras or a data URI to this intent as appropriate.
