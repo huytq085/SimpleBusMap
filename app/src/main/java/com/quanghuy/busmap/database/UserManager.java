@@ -45,11 +45,11 @@ public class UserManager {
 
     public User addUser(User user) {
         ContentValues values = new ContentValues();
-        values.put(UserDBHandler.COLUMN_FIRST_NAME, user.getFirstName());
-        values.put(UserDBHandler.COLUMN_LAST_NAME, user.getLastName());
+        values.put(UserDBHandler.COLUMN_FIRST_NAME, user.getFullName());
+//        values.put(UserDBHandler.COLUMN_LAST_NAME, user.getLastName());
         values.put(UserDBHandler.COLUMN_GENDER, user.getGender());
         values.put(UserDBHandler.COLUMN_PASSWORD, user.getPassword());
-        values.put(UserDBHandler.COLUMN_USERNAME, user.getUserName());
+        values.put(UserDBHandler.COLUMN_USERNAME, user.getUsername());
         long insertId = database.insert(UserDBHandler.TABLE_USER, null, values);
 //        user.setUserId(insertId);
         return user;
@@ -78,10 +78,10 @@ public class UserManager {
             while (cursor.moveToNext()) {
                 User user = new User();
 //                user.setUserId(cursor.getLong(cursor.getColumnIndex(UserDBHandler.COLUMN_ID)));
-                user.setUserName(cursor.getString(cursor.getColumnIndex(UserDBHandler.COLUMN_USERNAME)));
+                user.setUsername(cursor.getString(cursor.getColumnIndex(UserDBHandler.COLUMN_USERNAME)));
                 user.setPassword(cursor.getString(cursor.getColumnIndex(UserDBHandler.COLUMN_PASSWORD)));
-                user.setFirstName(cursor.getString(cursor.getColumnIndex(UserDBHandler.COLUMN_FIRST_NAME)));
-                user.setLastName(cursor.getString(cursor.getColumnIndex(UserDBHandler.COLUMN_LAST_NAME)));
+                user.setFullName(cursor.getString(cursor.getColumnIndex(UserDBHandler.COLUMN_FIRST_NAME)));
+//                user.setLastName(cursor.getString(cursor.getColumnIndex(UserDBHandler.COLUMN_LAST_NAME)));
                 user.setGender(cursor.getString(cursor.getColumnIndex(UserDBHandler.COLUMN_GENDER)));
 //                User user = new User(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
                 users.add(user);
@@ -92,11 +92,11 @@ public class UserManager {
 
     public int updateUser(User user) {
         ContentValues values = new ContentValues();
-        values.put(UserDBHandler.COLUMN_FIRST_NAME, user.getFirstName());
-        values.put(UserDBHandler.COLUMN_LAST_NAME, user.getLastName());
+        values.put(UserDBHandler.COLUMN_FIRST_NAME, user.getFullName());
+//        values.put(UserDBHandler.COLUMN_LAST_NAME, user.getLastName());
         values.put(UserDBHandler.COLUMN_GENDER, user.getGender());
         values.put(UserDBHandler.COLUMN_PASSWORD, user.getPassword());
-        values.put(UserDBHandler.COLUMN_USERNAME, user.getUserName());
+        values.put(UserDBHandler.COLUMN_USERNAME, user.getUsername());
 //        Updating row
         return database.update(UserDBHandler.TABLE_USER, values, UserDBHandler.COLUMN_ID + " =? ",new String[]{String.valueOf(user.getUserId())});
     }

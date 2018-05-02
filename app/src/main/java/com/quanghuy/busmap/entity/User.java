@@ -8,56 +8,73 @@ import java.util.Map;
  * Created by Huy on 3/25/2018.
  */
 public class User implements Serializable {
-    private String userName;
+    private String username;
     private String password;
     private String userId;
-    private String firstName;
-    private String lastName;
+    private String fullName;
     private String gender;
+    private String address;
+    private String phone;
+    private String accessToken;
+
 
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
         result.put("userId", userId);
-        result.put("userName", userName);
+        result.put("username", username);
         result.put("password", password);
-        result.put("firstName", firstName);
-        result.put("lastName", lastName);
+        result.put("fullName", fullName);
         result.put("gender", gender);
         return result;
     }
     public User() {
     }
-    public User(String userId, String userName, String password, String firstName, String lastName, String gender) {
-        this.userName = userName;
+    public User(String userId, String username, String password, String fullName, String lastName, String gender) {
+        this.username = username;
         this.password = password;
         this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.fullName = fullName;
         this.gender = gender;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

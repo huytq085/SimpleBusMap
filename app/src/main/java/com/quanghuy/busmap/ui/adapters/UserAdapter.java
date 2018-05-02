@@ -36,8 +36,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public void onBindViewHolder(final UserViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
         User user = users.get(position);
-        holder.textName.setText(user.getFirstName() + " " + user.getLastName());
-        holder.textUsername.setText(user.getUserName());
+//        holder.textName.setText(user.getFullName() + " " + user.getLastName());
+        holder.textUsername.setText(user.getUsername());
 
         holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override

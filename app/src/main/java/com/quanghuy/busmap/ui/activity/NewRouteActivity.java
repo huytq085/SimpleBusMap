@@ -121,7 +121,7 @@ public class NewRouteActivity extends AppCompatActivity {
         route.setTripSpacing(inputTripSpacing.getText().toString());
         return route;
     }
-
+// add route
     class AddRouteTask extends AsyncTask<Route, Void, Boolean> {
 
         @Override
@@ -132,6 +132,7 @@ public class NewRouteActivity extends AppCompatActivity {
             // TODO Add extras or a data URI to this intent as appropriate.
             resultIntent.putExtra("route", route);
             setResult(Activity.RESULT_OK, resultIntent);
+//            addRoute
             return client.addRoute(route);
         }
 
@@ -154,6 +155,7 @@ public class NewRouteActivity extends AppCompatActivity {
             alertDialog.show();
         }
     }
+//    update route
     class UpdateRouteTask extends AsyncTask<Route, Void, Boolean> {
 
         @Override

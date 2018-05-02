@@ -2,10 +2,8 @@ package com.quanghuy.busmap.ui.activity;
 
 import android.app.Activity;
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -28,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.quanghuy.busmap.Constants;
 import com.quanghuy.busmap.R;
 import com.quanghuy.busmap.entity.Route;
 import com.quanghuy.busmap.client.RouteAPIClient;
@@ -78,11 +75,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LoginActivity.fa.finish();
+//        LoginActivity.fa.finish();
         setControl();
         currentUser = SharedPrefsUtils.getCurrentUser(this);
         Log.d(TAG, "onCreate: "+ JsonUtils.encode(currentUser));
-        if (currentUser != null && !currentUser.getUserName().equals("admin")) {
+        if (currentUser != null && !currentUser.getUsername().equals("admin")) {
             NavigationView navigationView = findViewById(R.id.nav_view);
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_manage).setVisible(false);
@@ -90,9 +87,19 @@ public class MainActivity extends AppCompatActivity
         invalidateOptionsMenu();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fabAddRoute = (FloatingActionButton) findViewById(R.id.fabAddRoute);
-
+        if (currentUser.getUsername().equals("admin")) {
+            //        Add route
+            fabAddRoute.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent addRouteIntent = new Intent(MainActivity.this, NewRouteActivity.class);
+                    startActivityForResult(addRouteIntent, UPDATE_ROUTE_REQCODE);
+                }
+            });
+        } else {
+            fabAddRoute.setVisibility(View.GONE);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -113,17 +120,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-//        Add route
-        fabAddRoute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent addRouteIntent = new Intent(MainActivity.this, NewRouteActivity.class);
-                startActivityForResult(addRouteIntent, UPDATE_ROUTE_REQCODE);
-            }
-        });
-
-
-
     }
 
     @Override
@@ -161,8 +157,8 @@ public class MainActivity extends AppCompatActivity
         });
         txtName = findViewById(R.id.txtName);
         txtUserName = findViewById(R.id.txtUserName);
-        txtName.setText(currentUser.getFirstName() + " " + currentUser.getLastName());
-        txtUserName.setText("@"+currentUser.getUserName());
+        txtName.setText(currentUser.getFullName());
+        txtUserName.setText("@"+currentUser.getUsername());
         return true;
     }
 
@@ -170,7 +166,7 @@ public class MainActivity extends AppCompatActivity
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         Log.d(TAG, "onCreateContextMenu: ");
-        if (v.getId() == R.id.listRoute) {
+        if (currentUser.getUsername().equals("admin") && v.getId() == R.id.listRoute) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             System.out.println(listRouteAdapter.getItem(info.position).getClass());
             Route route = (Route) listRouteAdapter.getItem(info.position);
@@ -286,12 +282,13 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+// get route
     class GetRoutesTask extends AsyncTask<Void, Void, List<Route>> {
         @Override
         protected List<Route> doInBackground(Void... voids) {
             routes = new ArrayList<>();
             RouteAPIClient client = new RouteAPIClient();
+//            getRoutes
             routes = client.getRoutes();
             Log.d("TEST", "doInBackground: " + JsonUtils.encode(routes));
             if (routes != null) {
@@ -317,7 +314,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
+// delete route
     class DeleteRouteTask extends AsyncTask<Integer, Void, Boolean> {
 
         @Override

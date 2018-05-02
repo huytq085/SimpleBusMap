@@ -37,8 +37,7 @@
         <activity android:name=".ui.activity.NewRouteActivity" />
         <activity
             android:name=".SignUpActivity"
-            android:label="@string/title_activity_sign_up"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Đăng ký"/>
         <activity android:name=".ui.activity.UserActivity"></activity>
     </application>
 

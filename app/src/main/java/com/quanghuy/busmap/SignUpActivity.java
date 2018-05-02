@@ -67,9 +67,9 @@ public class SignUpActivity extends AppCompatActivity {
             tvLogin.setText("Quay lại");
             final User user = (User) intent.getSerializableExtra("user");
 
-            txtUserName.setText(user.getUserName());
-            txtLastName.setText(user.getLastName());
-            txtFirstName.setText(user.getFirstName());
+            txtUserName.setText(user.getUsername());
+//            txtLastName.setText(user.getLastName());
+            txtFirstName.setText(user.getFullName());
             txtPassword.setText(user.getPassword());
             if (user.getGender().equals("Nam")) {
                 rbGender = findViewById(R.id.radio_male);
@@ -82,11 +82,11 @@ public class SignUpActivity extends AppCompatActivity {
             btnSignup.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    user.setUserName(txtUserName.getText().toString());
+                    user.setUsername(txtUserName.getText().toString());
                     user.setPassword(txtPassword.getText().toString());
-                    user.setFirstName(txtFirstName.getText().toString());
-                    user.setLastName(txtLastName.getText().toString());
-                    user.setUserName(txtUserName.getText().toString());
+                    user.setFullName(txtFirstName.getText().toString());
+//                    user.setLastName(txtLastName.getText().toString());
+                    user.setUsername(txtUserName.getText().toString());
                     rbGender = findViewById(rgGender.getCheckedRadioButtonId());
 
                     user.setGender(rbGender.getText().toString());
@@ -103,11 +103,11 @@ public class SignUpActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     User user = new User();
-                    user.setUserName(txtUserName.getText().toString());
+                    user.setUsername(txtUserName.getText().toString());
                     user.setPassword(txtPassword.getText().toString());
-                    user.setFirstName(txtFirstName.getText().toString());
-                    user.setLastName(txtLastName.getText().toString());
-                    user.setUserName(txtUserName.getText().toString());
+                    user.setFullName(txtFirstName.getText().toString());
+//                    user.setLastName(txtLastName.getText().toString());
+                    user.setUsername(txtUserName.getText().toString());
                     rbGender = findViewById(rgGender.getCheckedRadioButtonId());
 
                     user.setGender(rbGender.getText().toString());

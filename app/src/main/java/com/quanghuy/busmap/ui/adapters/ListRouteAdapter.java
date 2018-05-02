@@ -2,8 +2,11 @@ package com.quanghuy.busmap.ui.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,7 +94,8 @@ public class ListRouteAdapter extends BaseAdapter implements Filterable {
         }
 //        Set random color to code of route
         Random rnd = new Random();
-        viewHolder.layoutWithCircleDrawable.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
+        GradientDrawable circle = (GradientDrawable) context.getDrawable(R.drawable.circle_drawable);
+        circle.setColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
 //        /Set random color to code of route
         viewHolder.txtName.setText(routes.get(position).getName());
         viewHolder.txtTime.setText("Thời gian: " + routes.get(position).getTime());

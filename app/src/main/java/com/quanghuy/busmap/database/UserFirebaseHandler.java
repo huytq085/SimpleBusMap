@@ -35,8 +35,8 @@ public class UserFirebaseHandler {
     }
 
     public void addUser(final User user, final OnCheckDataListener onCheckDataListener){
-        Query query =refUser.orderByChild("userName").equalTo(user.getUserName());
-        Log.i(TAG, "addUser: " + user.getUserName());
+        Query query =refUser.orderByChild("userName").equalTo(user.getUsername());
+        Log.i(TAG, "addUser: " + user.getUsername());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

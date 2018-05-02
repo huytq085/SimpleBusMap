@@ -16,6 +16,7 @@ public class SharedPrefsUtils {
     public static SharedPreferences getPrefs(Context context) {
         return context.getSharedPreferences(Constants.PACKAGE_NAME, Context.MODE_PRIVATE);
     }
+
     public static User getCurrentUser(Context context) {
         String currentUserString = getPrefs(context).getString(CURRENT_USER, "");
         User currentUser = JsonUtils.decode(currentUserString, User.class);
